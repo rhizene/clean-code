@@ -12,7 +12,6 @@ public class TextHelperTest {
 	TextHelper helper = new TextHelper();
 	
 	@Test
-	@Disabled
 	public void testSwapLastTwoCharacters() {
 		assertEquals("",helper.swapLastTwoCharacters(""));
 		assertEquals("A",helper.swapLastTwoCharacters("A"));
@@ -21,9 +20,11 @@ public class TextHelperTest {
 	}
 
 	@Test
-	@Disabled
 	public void testTruncateAInFirst2Positions() {
 		assertEquals("",helper.truncateAInFirst2Positions(""));
+		assertEquals("",helper.truncateAInFirst2Positions("A"));
+		assertEquals("",helper.truncateAInFirst2Positions("AA"));
+		assertEquals("B",helper.truncateAInFirst2Positions("AB"));
 		assertEquals("BCD",helper.truncateAInFirst2Positions("ABCD"));
 		assertEquals("CD",helper.truncateAInFirst2Positions("AACD"));
 		assertEquals("BCD",helper.truncateAInFirst2Positions("BACD"));

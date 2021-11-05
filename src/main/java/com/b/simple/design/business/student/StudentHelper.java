@@ -1,12 +1,17 @@
 package com.b.simple.design.business.student;
 public class StudentHelper {
 
-	/* PROBLEM 1 */	
+	/* PROBLEM 1 */
 	/*
 	* You get a grade B if marks are between 51 and 80 (both inclusive). Except for Maths where the upper limit is increased by 10.
 	*/
 	public boolean isGradeB(int marks, boolean isMaths) {
-		return isMaths ? marks>=51 && marks<=90 : marks>=51 && marks<=80; 
+		final int GRADE_MIN = 51;
+		final int GRADE_MAX = 80;
+		final int GRADE_MAX_MATH = GRADE_MAX + 10;
+		final int GRADE_CEIL = isMaths ? GRADE_MAX_MATH : GRADE_MAX;
+
+		return marks >= GRADE_MIN &&  marks<= GRADE_CEIL;
 	}
 
 	/* PROBLEM 2 */
@@ -17,26 +22,16 @@ public class StudentHelper {
 	*/
 
 	public String getGrade(int mark, boolean isMaths) {
-		String grade = "C";
-		
-		if (isGradeA(mark, isMaths))
-			grade = "A";
-		else if (isBGrade(mark, isMaths)) {
-			grade = "B";
-		}
-		return grade;
-	}
+		final int GRADE_MODIFIER_MATH = 5;
+		final int modifier = isMaths ? GRADE_MODIFIER_MATH : 0;
+		final int minGradeA = 91 + modifier;
+		final int minGradeB = 51 + modifier;
 
-	private boolean isGradeA(int mark, boolean isMaths) {
-		int lowerLimitForAGrade = isMaths ? 95
-				: 90;
-		return mark > lowerLimitForAGrade;
-	}
 
-	private boolean isBGrade(int mark, boolean isMaths) {
-		int lowerLimitGradeB = isMaths ? 55
-				: 50;
-		return mark > lowerLimitGradeB && mark < 90;
+		if (mark >= minGradeA) return "A";
+		if (mark >= minGradeB && mark < minGradeA) return "B";
+
+		return "C";
 	}
 
     /*  PROBLEM 3
@@ -56,10 +51,14 @@ public class StudentHelper {
     */
         
     public String willQualifyForQuiz(int marks1, int marks2, boolean isMaths) {
-        if ((isMaths ? marks1 <= 25 : marks1 <= 20)
-                || (isMaths ? marks2 <= 25 : marks2 <= 20)) return "NO";
-        if ((isMaths ? marks1 >= 85 : marks1 >= 80)
-                || (isMaths ? marks2 >= 85 : marks2 >= 80)) return "YES";
+		final int modifier = isMaths ? 5 : 0;
+		final int NO_THRESHOLD = 20 + modifier;
+		final int YES_THRESHOLD = 80 + modifier;
+
+		if (marks1 <= NO_THRESHOLD || marks2 <= NO_THRESHOLD) return "NO";
+
+		if (marks1 >= YES_THRESHOLD || marks2 >= YES_THRESHOLD ) return "YES";
+
         return "MAYBE";
     }	
 
